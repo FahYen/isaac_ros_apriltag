@@ -31,6 +31,9 @@ def generate_launch_description():
             'output_height': 1080,
         }]
     )
+    # Subscribing to "image_raw" and "camera_info"
+    # Publishing to "image_rect"
+    # Source: https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_image_pipeline/blob/main/isaac_ros_image_proc/src/rectify_node.cpp
 
     apriltag_node = ComposableNode(
         package='isaac_ros_apriltag',
@@ -38,6 +41,9 @@ def generate_launch_description():
         name='apriltag',
         namespace=''
     )
+    # Subscribing to "image" and "camera_info"
+    # Publishing to "tag_detections" and "tf"
+    # Source: src/isaac_ros_apriltag/isaac_ros_apriltag/src/apriltag_node.cpp
 
     realsense_camera_node = ComposableNode(
         package='realsense2_camera',
@@ -45,8 +51,8 @@ def generate_launch_description():
         name='realsense2_camera',
         namespace='',
         parameters=[{
-            'color_height': 1080,
             'color_width': 1920,
+            'color_height': 1080,
             'enable_infra1': False,
             'enable_infra2': False,
             'enable_depth': False,
@@ -54,6 +60,7 @@ def generate_launch_description():
         remappings=[('/color/image_raw', '/image'),
                     ('/color/camera_info', '/camera_info')]
     )
+    # Publishes to "image" and "camera_info"
 
     apriltag_container = ComposableNodeContainer(
         package='rclcpp_components',
